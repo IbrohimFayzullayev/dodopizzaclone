@@ -1,0 +1,107 @@
+@mixin flex__center {
+  display: flex;
+  align-items: center;
+}
+.container {
+  width: 1280px;
+  margin: 0 auto;
+}
+.title {
+  width: 100%;
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  font-size: 36px;
+  margin: 32px 0px;
+}
+.box__title {
+  margin: 8px 0px;
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 500;
+}
+.box__text {
+  color: rgb(92, 99, 112);
+  font-weight: 400;
+  margin: 0px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 20px;
+}
+.small__text {
+  font-size: 14px;
+  margin: 5px 0;
+}
+.btn {
+  padding: 8px 20px;
+  font-size: 16px;
+  line-height: 24px;
+  background-color: rgb(255, 105, 0);
+  color: rgb(255, 255, 255);
+  border-radius: 35px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  transition-property: background-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+.select__btn {
+  background-color: rgb(255, 240, 230);
+  color: rgb(209, 87, 0);
+  font-weight: 500;
+  &:hover {
+    background-color: rgb(254, 204, 170);
+  }
+}
+.app {
+  .header {
+    height: 50px;
+  }
+  .menu[stuck] {
+    background-color: rgb(209, 87, 0);
+  }
+  .menu {
+    @include flex__center();
+    justify-content: space-between;
+    position: sticky;
+    padding: 0 125px;
+    top: -1px;
+    z-index: 20;
+    background-color: white;
+    background-color: rgba(255, 255, 255, 0.693);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
+
+    &__list {
+      @include flex__center();
+      gap: 18px;
+      padding: 0;
+      margin: 0;
+      &--item {
+        list-style: none;
+        padding: 22px 0;
+        font-size: 14px;
+        font-weight: 500;
+        transition-duration: 0.25s, 0.25s;
+        transition-timing-function: ease, ease;
+        transition-delay: 0s, 0s;
+        transition-property: color, padding;
+        &:hover {
+          color: rgb(255, 105, 0);
+          cursor: pointer;
+        }
+      }
+    }
+    .btn__cart {
+      background-color: rgb(255, 105, 0);
+      color: rgb(255, 255, 255);
+
+      &:hover {
+        background-color: rgba(210, 90, 4, 0.966);
+      }
+    }
+  }
+}

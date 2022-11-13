@@ -1,0 +1,285 @@
+.pizza {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 35px;
+    row-gap: 60px;
+
+    &--item {
+      cursor: pointer;
+      height: 452px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-sizing: border-box;
+      img {
+        width: 95%;
+        margin: 5% 0px 0px 5%;
+        transition-duration: 200ms;
+
+        &:hover {
+          width: 95%;
+          transform: translateY(4px);
+        }
+      }
+      .price {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: -12px;
+        width: 100%;
+        justify-content: space-between;
+
+        &__sum {
+          box-sizing: border-box;
+          padding-right: 4px;
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .rodal-dialog {
+      padding: 0;
+      border-radius: 20px;
+    }
+    .rodal-close {
+      top: 0;
+      right: -30px;
+      width: 30px;
+      height: 30px;
+      transition: 0.2s all;
+      &::after,
+      &::before {
+        background: white;
+      }
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+    .pizza__box {
+      display: flex;
+      .pizza__img {
+        width: 530px;
+        box-sizing: border-box;
+        height: 600px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: height, width 150ms ease-in-out 0s;
+
+        img {
+          margin: 5% 0px 0px 5%;
+        }
+      }
+      .pizza__info {
+        width: 394px;
+        box-sizing: border-box;
+        background-color: rgb(252, 252, 252);
+        border-radius: 0 30px 30px 0;
+        padding: 20px 0 20px 15px;
+        position: relative;
+        .pzinfo {
+          position: absolute;
+          min-height: 45px;
+          padding: 12px;
+          border-radius: 10px;
+          background-color: rgb(55, 53, 53);
+          color: rgb(255, 255, 255);
+          width: 250px;
+          margin-top: 0px;
+          top: 62px;
+          right: 10px;
+          z-index: 20;
+          display: none;
+          &__title {
+            color: rgb(255, 255, 255);
+            opacity: 0.5;
+            margin: 0px 0px 12px;
+            font-size: 12px;
+          }
+          &__textbox {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            font-weight: 500;
+            gap: 3px;
+          }
+          &__item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+        .visible__info {
+          display: block;
+        }
+        .pizza__over {
+          padding: 0;
+          margin-right: 3px;
+          height: 480px;
+          overflow: auto;
+          background-color: rgb(252, 252, 252);
+        }
+        .pizza__over::-webkit-scrollbar {
+          right: 3px;
+          opacity: 0.5;
+          z-index: 1;
+          transition: opacity 0.4s ease-out 0s;
+          border-radius: 4px;
+          cursor: pointer;
+          width: 8px !important;
+        }
+        .pizza__over::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          background-color: rgba(57, 57, 57, 0.3);
+        }
+
+        .vkus {
+          &__title {
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 600;
+            margin: 20px 0 12px 0;
+          }
+          &__list {
+            display: grid;
+            gap: 0px;
+            row-gap: 15px;
+            grid-template-columns: repeat(3, 1fr);
+            padding-left: 5px;
+          }
+          &__item {
+            position: relative;
+            height: 166px;
+            padding: 8px;
+            width: 104px;
+            box-sizing: border-box;
+            border-radius: 12px;
+            box-shadow: rgba(6, 5, 50, 0.057) 0px 4px 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: space-between;
+            border: 1px solid white;
+            transition: box-shadow 150ms ease-out 0s, border;
+            user-select: none;
+            &:hover {
+              box-shadow: rgba(6, 5, 50, 0.12) 0px 4px 7px;
+            }
+
+            &--img {
+              img {
+                width: 90px;
+                height: 90px;
+              }
+            }
+            &--title,
+            &--price {
+              margin: 0;
+            }
+            &--title {
+              font-size: 12px;
+            }
+            &--price {
+              font-size: 16px;
+              line-height: 20px;
+              font-weight: 500;
+              margin: 4px;
+            }
+          }
+          .checked__icon {
+            position: absolute;
+            display: none;
+          }
+          .vkus__cliked {
+            box-shadow: rgb(6 5 50 / 12%) 0px 0px 0px;
+            border: 1px solid rgb(255, 105, 0);
+            .checked__icon {
+              display: block;
+              color: rgb(255, 105, 0);
+              right: 5px;
+              top: 0px;
+              font-size: 20px;
+            }
+          }
+        }
+      }
+      .heroo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        height: auto;
+        padding-right: 20px;
+        &__title {
+          font-size: 24px;
+          line-height: 28px;
+          font-weight: 500;
+          margin: 0;
+        }
+        i {
+          font-size: 24px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+      }
+      .radius__select {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 60px;
+        background-color: rgb(243, 243, 247);
+        height: 32px;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+        margin: 8px 0px;
+        padding: 0 4px;
+      }
+      .radius__input {
+        position: absolute;
+        display: none;
+      }
+      .radius__label {
+        width: 33%;
+      }
+      .weight__label {
+        width: 50%;
+      }
+      .input__label {
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+        border-radius: 60px;
+        color: rgb(0, 0, 0);
+        font-size: 12px;
+        text-align: center;
+        transition: color 150ms ease 0s;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 26px;
+        transition: background-color, box-shadow 150ms linear 0s;
+      }
+      .checked__value {
+        background-color: white;
+        box-shadow: rgba(6, 5, 50, 0.12) 0px 4px 20px;
+      }
+      .add__tocart {
+        padding-top: 20px;
+        background-color: rgb(252, 252, 252);
+        button {
+          width: 90%;
+          height: 48px;
+          &:hover {
+            background-color: rgba(210, 90, 4, 0.966);
+          }
+        }
+      }
+    }
+  }
+}
