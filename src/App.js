@@ -26,10 +26,10 @@ const App = () => {
         <Pizza />
       </section>
       <section className="section__zakuski container">
-        <Items srt={"hello zakuski"} />
+        <Items srt={"hello zakuski"} type="zakuski" />
       </section>
       <section className="section__zakuski container">
-        <Items srt={"hello disert"} />
+        <Items srt={"hello disert"} type="disert" />
       </section>
     </div>
   );

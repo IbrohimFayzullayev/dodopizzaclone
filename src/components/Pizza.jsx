@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Rodal from "rodal";
 import axios from "axios";
 import "./sass/pizza.scss";
 import "rodal/lib/rodal.css";
@@ -7,25 +6,26 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import { URL } from "../URL";
 
 const Pizza = () => {
-  const [visible, setVisible] = useState(false);
   const [pizzas, setPizzas] = useState([]);
   const [checkedRadius, setCheckedRadius] = useState("2");
   const [checkWeight, setCheckWeight] = useState(2);
   const [checkedItems, setCheckedItems] = useState([]);
   const [vkusPrice, setVkusPrice] = useState(0);
   const [infoVisible, setInfoVisible] = useState(false);
+  const [clickedItemId, setClickedItemId] = useState(0);
 
-  const show = () => {
-    setVisible(true);
-  };
-  const hide = () => {
-    setVisible(false);
-  };
   useEffect(() => {
     const getData = async () => {
       const pizzas = await axios.get(`${URL}/pizza`);
-      console.log(pizzas);
-      setPizzas(pizzas.data.data);
+      console.log(pizzas.data.data);
+      let asa = pizzas.data.data.map((val, index) => {
+        return {
+          id: index + 1,
+          ...val,
+        };
+      });
+      console.log(asa);
+      setPizzas(asa);
     };
     getData();
   }, []);
@@ -41,6 +41,14 @@ const Pizza = () => {
       setVkusPrice(vkusPrice + item.price);
     }
   };
+  const closeModal = () => {
+    setCheckedRadius("2");
+    setCheckWeight(2);
+    setInfoVisible(false);
+    setClickedItemId(0);
+    setCheckedItems([]);
+    setVkusPrice(0);
+  };
 
   return (
     <div className="pizza">
@@ -48,8 +56,13 @@ const Pizza = () => {
       <div className="pizza__list">
         {pizzas?.map((item) => {
           return (
-            <div key={item.pizza.id}>
-              <div className="pizza__list--item" onClick={show}>
+            <div key={item.id}>
+              <div
+                className="pizza__list--item"
+                onClick={() => {
+                  setClickedItemId(item.id);
+                }}
+              >
                 <img
                   src={`http://13.40.130.53/images/${item.pizza.mainImage}`}
                   alt="pizza"
@@ -61,14 +74,27 @@ const Pizza = () => {
                   <button className="select__btn btn">Выбрать</button>
                 </div>
               </div>
-              <Rodal
-                className="rodall"
-                width={924}
-                height={600}
-                visible={visible}
-                onClose={hide}
+              <div
+                className={`rodall ${
+                  clickedItemId === item.id ? "show__modal" : ""
+                }`}
+                onClick={() => {
+                  closeModal();
+                }}
               >
-                <div className="pizza__box">
+                <div
+                  className={`pizza__box`}
+                  onClick={(e) => {
+                    setInfoVisible(false);
+                    e.stopPropagation();
+                  }}
+                >
+                  <i
+                    className="bi bi-x-lg close__icon"
+                    onClick={() => {
+                      closeModal();
+                    }}
+                  ></i>
                   <div className="pizza__img">
                     <img
                       src={`http://13.40.130.53/images/${item.pizza.images[0]}`}
@@ -96,7 +122,8 @@ const Pizza = () => {
                       <div className="heroo">
                         <p className="heroo__title">{item.pizza.name}</p>
                         <i
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setInfoVisible(infoVisible ? false : true);
                           }}
                         >
@@ -107,31 +134,34 @@ const Pizza = () => {
                         className={`pzinfo ${
                           infoVisible ? "visible__info" : ""
                         }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
                       >
                         <p className="pzinfo__title">
                           Пищевая ценность на 100 г
                         </p>
                         <div className="pzinfo__textbox">
-                          {item.pizza.kkal.split("\n").map((val,index) => {
+                          {item.pizza.kkal?.split("\n").map((val, index) => {
                             return (
                               <div key={index} className="pzinfo__item">
                                 <p>{val}</p>
                                 {val === "Вес" ? (
                                   <p>
-                                    {
-                                      item.pizza.massa[
-                                        Number(checkedRadius) - 1
-                                      ][checkWeight - 1]
-                                    }{" "}
+                                    {clickedItemId === item.id
+                                      ? item.pizza.massa[
+                                          Number(checkedRadius) - 1
+                                        ][Number(checkWeight) - 1]
+                                      : ""}
                                     г
                                   </p>
                                 ) : val === "Диаметр" ? (
                                   <p>
-                                    {
-                                      item.pizza.radius[
-                                        Number(checkedRadius) - 1
-                                      ]
-                                    }{" "}
+                                    {clickedItemId === item.id
+                                      ? item.pizza.radius[
+                                          Number(checkedRadius) - 1
+                                        ]
+                                      : ""}{" "}
                                     см
                                   </p>
                                 ) : (
@@ -143,20 +173,26 @@ const Pizza = () => {
                         </div>
                       </div>
                       <p className="box__text">
-                        {item.pizza.radius[Number(checkedRadius) - 1]} см,
-                        традиционное тесто,
-                        {
-                          item.pizza.massa[Number(checkedRadius) - 1][
-                            checkWeight - 1
-                          ]
-                        }{" "}
+                        {clickedItemId === item.id
+                          ? item.pizza.radius[Number(checkedRadius) - 1]
+                          : ""}{" "}
+                        см, традиционное тесто,
+                        {clickedItemId === item.id
+                          ? item.pizza.massa[Number(checkedRadius) - 1][
+                              Number(checkWeight) - 1
+                            ]
+                          : ""}{" "}
                         г
                       </p>
                       <p className="small__text">{item.pizza.description}</p>
                       <div className="select__box">
                         <div className="radius__select">
                           <input
-                            className={`radius__input`}
+                            className={`radius__input ${
+                              clickedItemId === item.id
+                                ? `ishladi ${clickedItemId + " " + item.id}`
+                                : `noooo ${clickedItemId + " " + item.id}`
+                            }`}
                             type="radio"
                             name="radius"
                             id="small_radius"
@@ -164,6 +200,14 @@ const Pizza = () => {
                             onChange={(e) => {
                               setCheckedRadius(e.target.value);
                             }}
+                            disabled={
+                              clickedItemId
+                                ? pizzas[clickedItemId - 1].pizza.radius
+                                    .length < 1
+                                  ? true
+                                  : false
+                                : false
+                            }
                           />
                           <label
                             className={`radius__label input__label ${
@@ -174,7 +218,11 @@ const Pizza = () => {
                             Маленькая
                           </label>
                           <input
-                            className="radius__input"
+                            className={`radius__input ${
+                              clickedItemId === item.id
+                                ? `ishladi ${clickedItemId + " " + item.id}`
+                                : `noooo ${clickedItemId + " " + item.id}`
+                            }`}
                             type="radio"
                             name="radius"
                             id="medium_radius"
@@ -182,6 +230,14 @@ const Pizza = () => {
                             onChange={(e) => {
                               setCheckedRadius(e.target.value);
                             }}
+                            disabled={
+                              clickedItemId
+                                ? pizzas[clickedItemId - 1].pizza.radius
+                                    .length < 2
+                                  ? true
+                                  : false
+                                : false
+                            }
                           />
                           <label
                             className={`radius__label input__label ${
@@ -192,7 +248,11 @@ const Pizza = () => {
                             Средняя
                           </label>
                           <input
-                            className="radius__input"
+                            className={`radius__input ${
+                              clickedItemId === item.id
+                                ? `ishladi ${clickedItemId + " " + item.id}`
+                                : `noooo ${clickedItemId + " " + item.id}`
+                            }`}
                             type="radio"
                             name="radius"
                             id="high_radius"
@@ -200,6 +260,14 @@ const Pizza = () => {
                             onChange={(e) => {
                               setCheckedRadius(e.target.value);
                             }}
+                            disabled={
+                              clickedItemId
+                                ? pizzas[clickedItemId - 1].pizza.radius
+                                    .length < 3
+                                  ? true
+                                  : false
+                                : false
+                            }
                           />
                           <label
                             className={`radius__label input__label ${
@@ -250,33 +318,35 @@ const Pizza = () => {
                         </div>
                       </div>
                       <div className="vkus">
-                        <h3 className="vkus__title">Добавьте по вкусу</h3>
+                        <h3 className="vkus__title">
+                          {item.vkusi.length !== 0 ? `Добавьте по вкусу` : ""}
+                        </h3>
                         <div className="vkus__list">
-                          {item.vkusi.map((vkusi) => {
+                          {item.vkusi?.map((vkuss) => {
                             return (
                               <div
-                                key={vkusi.id}
+                                key={vkuss.id}
                                 className={`vkus__item ${
-                                  checkedItems.includes(vkusi.id)
+                                  checkedItems.includes(vkuss.id)
                                     ? "vkus__cliked"
                                     : ""
                                 }`}
                                 onClick={() => {
-                                  clickItem(vkusi);
+                                  clickItem(vkuss);
                                 }}
                               >
                                 <i className="bi bi-check-circle checked__icon"></i>
                                 <div className="vkus__item--img">
                                   <img
-                                    src={`http://13.40.130.53/images/${vkusi.image}`}
+                                    src={`http://13.40.130.53/images/${vkuss.image}`}
                                     alt=""
                                   />
                                 </div>
                                 <p className="vkus__item--title">
-                                  {String(vkusi.name).slice(0, 20)}
+                                  {String(vkuss.name).slice(0, 20)}
                                 </p>
                                 <p className="vkus__item--price">
-                                  {vkusi.price} сум
+                                  {vkuss.price} сум
                                 </p>
                               </div>
                             );
@@ -292,7 +362,7 @@ const Pizza = () => {
                     </div>
                   </div>
                 </div>
-              </Rodal>
+              </div>
             </div>
           );
         })}
