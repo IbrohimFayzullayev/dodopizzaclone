@@ -17,14 +17,12 @@ const Pizza = () => {
   useEffect(() => {
     const getData = async () => {
       const pizzas = await axios.get(`${URL}/pizza`);
-      console.log(pizzas.data.data);
       let asa = pizzas.data.data.map((val, index) => {
         return {
           id: index + 1,
           ...val,
         };
       });
-      console.log(asa);
       setPizzas(asa);
     };
     getData();

@@ -1,0 +1,58 @@
+.cart {
+  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.532);
+  z-index: 50;
+  &__modal {
+    width: 440px;
+    position: absolute;
+    background-color: rgb(243, 243, 247);
+    height: 100%;
+    top: 0;
+    right: 0;
+  }
+  .cl__icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 32px;
+    cursor: pointer;
+    left: -40px;
+    color: white;
+    user-select: none;
+    transition: all 200ms;
+    &:hover {
+      font-size: 45px;
+      left: -45px;
+    }
+  }
+  .empty__cart {
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    flex-flow: column;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    img {
+      width: 306px;
+      height: 200px;
+    }
+    &--hero {
+      font-size: 22px;
+      font-weight: 500;
+      margin: 18px 0;
+    }
+    &--text {
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.4;
+    }
+  }
+}
