@@ -26,16 +26,22 @@ const Header = () => {
   const sendEmail = async () => {
     setSpinner(true);
     setStepNumber(0);
-    const response = await axios.post(
-      `http://13.40.130.53/signup`,
-      {
-        email: `${message}`,
-      }
-      // {
-      //   withCredentials: true,
-      // }
-    );
-    console.log(response);
+    // const response = await axios.post(
+    //   // `http://localhost:8000/signup`,
+    //   `http://13.40.130.53/signup`,
+    //   {
+    //     email: `${message}`,
+    //   },
+    //   {
+    //     withCredentials: true,
+    //   }
+    // );
+    fetch("http://13.40.130.53/signup", { email: `${message}` })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+    // console.log(response);
     setSpinner(false);
     setStepNumber(2);
   };
